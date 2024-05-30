@@ -13,6 +13,7 @@ from pydantic import BaseModel, HttpUrl, ValidationError, parse_obj_as
 from rich import print
 from rich.prompt import Prompt
 from trafilatura.spider import focused_crawler
+from security import safe_requests
 
 logger = logging.getLogger(__name__)
 
@@ -31,7 +32,7 @@ def url_to_tempfile(url: str) -> str:
         HTTPError: If there's any issue fetching the content.
     """
 
-    response = requests.get(url)
+    response = safe_requests.get(url)
     response.raise_for_status()  # Raise an exception for HTTP errors
 
     # Create a temporary file and write the content
@@ -208,7 +209,7 @@ def find_urls(
     base_domain = urlparse(url).netloc
 
     try:
-        response = requests.get(url, timeout=5)
+        response = safe_requests.get(url, timeout=5)
         response.raise_for_status()
         soup = BeautifulSoup(response.text, "html.parser")
         links = [urljoin(url, a["href"]) for a in soup.find_all("a", href=True)]
