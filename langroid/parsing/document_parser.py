@@ -107,7 +107,7 @@ class DocumentParser(Parser):
             BytesIO: A BytesIO object containing the doc data.
         """
         if self.source.startswith(("http://", "https://")):
-            response = requests.get(self.source)
+            response = requests.get(self.source, timeout=60)
             response.raise_for_status()
             return BytesIO(response.content)
         else:

@@ -47,7 +47,7 @@ class WebSearchResult:
         return self.full_content[: self.max_summary_length]
 
     def get_full_content(self) -> str:
-        response: Response = requests.get(self.link)
+        response: Response = requests.get(self.link, timeout=60)
         soup: BeautifulSoup = BeautifulSoup(response.text, "lxml")
         text = " ".join(soup.stripped_strings)
         return text[: self.max_content_length]
