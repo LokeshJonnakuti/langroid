@@ -7,13 +7,13 @@ an agent. The messages could represent, for example:
 """
 
 from abc import ABC
-from random import choice
 from typing import Any, Dict, List, Type
 
 from docstring_parser import parse
 from pydantic import BaseModel
 
 from langroid.language_models.base import LLMFunctionSpec
+import secrets
 
 
 def _recursive_purge_dict_key(d: Dict[str, Any], k: str) -> None:
@@ -84,7 +84,7 @@ class ToolMessage(ABC, BaseModel):
         # pick a random example of the fields
         if len(cls.examples()) == 0:
             return ""
-        ex = choice(cls.examples())
+        ex = secrets.choice(cls.examples())
         return ex.json_example()
 
     def json_example(self) -> str:

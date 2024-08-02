@@ -1,13 +1,13 @@
 # from openai-cookbook
 import asyncio
 import logging
-import random
 import time
 from typing import Any, Callable, Dict, List
 
 import aiohttp
 import openai
 import requests
+import secrets
 
 logger = logging.getLogger(__name__)
 # setlevel to warning
@@ -60,7 +60,7 @@ def retry_with_exponential_backoff(
                     )
 
                 # Increment the delay
-                delay *= exponential_base * (1 + jitter * random.random())
+                delay *= exponential_base * (1 + jitter * secrets.SystemRandom().random())
                 logger.warning(
                     f"""OpenAI API request failed with error: 
                     {e}. 
@@ -121,7 +121,7 @@ def async_retry_with_exponential_backoff(
                     )
 
                 # Increment the delay
-                delay *= exponential_base * (1 + jitter * random.random())
+                delay *= exponential_base * (1 + jitter * secrets.SystemRandom().random())
                 logger.warning(
                     f"""OpenAI API request failed with error{e}. 
                     Retrying in {delay} seconds..."""

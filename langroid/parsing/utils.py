@@ -1,5 +1,4 @@
 import difflib
-import random
 import re
 from functools import cache
 from itertools import islice
@@ -7,9 +6,10 @@ from typing import Any, Iterable, List
 
 import nltk
 from faker import Faker
+import secrets
 
 Faker.seed(23)
-random.seed(43)
+secrets.SystemRandom().seed(43)
 
 
 # Ensures the NLTK resource is available
@@ -43,7 +43,7 @@ def generate_random_sentences(k: int) -> str:
     sentences = nltk.tokenize.sent_tokenize(text)
 
     # Generate k random sentences
-    random_sentences = random.choices(sentences, k=k)
+    random_sentences = secrets.SystemRandom().choices(sentences, k=k)
     return " ".join(random_sentences)
 
 
