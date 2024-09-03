@@ -8,12 +8,11 @@ environment variables in your `.env` file, as explained in the
 
 import os
 from typing import Dict, List
-
-import requests
 from bs4 import BeautifulSoup
 from dotenv import load_dotenv
 from googleapiclient.discovery import Resource, build
 from requests.models import Response
+from security import safe_requests
 
 
 class WebSearchResult:
@@ -47,7 +46,7 @@ class WebSearchResult:
         return self.full_content[: self.max_summary_length]
 
     def get_full_content(self) -> str:
-        response: Response = requests.get(self.link)
+        response: Response = safe_requests.get(self.link)
         soup: BeautifulSoup = BeautifulSoup(response.text, "lxml")
         text = " ".join(soup.stripped_strings)
         return text[: self.max_content_length]
