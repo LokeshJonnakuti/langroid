@@ -31,7 +31,7 @@ def url_to_tempfile(url: str) -> str:
         HTTPError: If there's any issue fetching the content.
     """
 
-    response = requests.get(url)
+    response = requests.get(url, timeout=60)
     response.raise_for_status()  # Raise an exception for HTTP errors
 
     # Create a temporary file and write the content
