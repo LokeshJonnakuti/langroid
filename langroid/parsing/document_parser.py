@@ -7,11 +7,11 @@ from typing import Any, Generator, List, Tuple
 import fitz
 import pdfplumber
 import pypdf
-import requests
 
 from langroid.mytypes import DocMetaData, Document
 from langroid.parsing.parser import Parser, ParsingConfig
 from langroid.parsing.urls import url_to_tempfile
+from security import safe_requests
 
 logger = logging.getLogger(__name__)
 
@@ -107,7 +107,7 @@ class DocumentParser(Parser):
             BytesIO: A BytesIO object containing the doc data.
         """
         if self.source.startswith(("http://", "https://")):
-            response = requests.get(self.source)
+            response = safe_requests.get(self.source)
             response.raise_for_status()
             return BytesIO(response.content)
         else:
